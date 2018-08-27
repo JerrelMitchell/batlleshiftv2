@@ -19,6 +19,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
+  gem 'capybara'
 end
 
 group :test do
