@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   end
   root 'welcome#index'
   get '/register', to: 'register#index', as: 'register'
+  post '/register', to: 'register#create'
+  get '/dashboard', to: 'dashboard#index'
 end
