@@ -21,11 +21,10 @@ class Space
   end
 
   def occupied?
-    !!@contents
+    @contents
   end
 
   def not_attacked?
     status == "Not Attacked"
   end
 end
-

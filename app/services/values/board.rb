@@ -35,7 +35,7 @@ class Board
 
   def create_grid
     spaces = create_spaces
-    assign_spaces_to_rows.map do |row|
+    a = assign_spaces_to_rows.map do |row|
       row.each.with_index do |coordinates, index|
         row[index] = {coordinates => spaces[coordinates]}
       end
@@ -203,4 +203,3 @@ class Board
     get_column(coordinate) == "1"
   end
 end
-
