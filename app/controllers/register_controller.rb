@@ -4,7 +4,8 @@ class RegisterController < ApplicationController
   end
 
   def create
-    User.create(register_params)
+    user = User.create(register_params)
+    session[:user_id] = user.id
     redirect_to '/dashboard'
   end
 

@@ -1,0 +1,5 @@
+<% if current_user %>
+<%= "Logged in as #{current_user.username}" %>
+<% else %>
+<%= link_to "Register", register_path %>
+<% end %>
