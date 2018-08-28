@@ -1,4 +1,4 @@
-<% if current_user.status.zero? %>
+<% if current_user.status == 'inactive' %>
 This account has not yet been activated. Please check your email.
 <% else %>
 <% end %>
