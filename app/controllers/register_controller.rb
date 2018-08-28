@@ -13,6 +13,6 @@ class RegisterController < ApplicationController
   private
 
   def register_params
-    params.permit(:email, :username, :password)
+    params.permit(:email, :username, :password, :auth_token, :activation_token)
   end
 end
