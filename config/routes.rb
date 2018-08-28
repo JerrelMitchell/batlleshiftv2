@@ -11,4 +11,11 @@ Rails.application.routes.draw do
   get '/register', to: 'register#index', as: 'register'
   post '/register', to: 'register#create'
   get '/dashboard', to: 'dashboard#index'
+
+  get '/registration_notification', to: 'registration_notification#create'
+  get '/activation/:id', to: 'activation#update', as: 'activation'
+
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  get '/logout', to: 'sessions#destroy'
 end
