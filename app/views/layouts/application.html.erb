@@ -9,6 +9,8 @@
   </head>
 
   <body>
+    <%= render partial: 'layouts/nav' %>
+    <%= flash[:notice] if flash[:notice] %>
     <%= yield %>
   </body>
 </html>

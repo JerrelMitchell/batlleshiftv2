@@ -14,10 +14,17 @@ describe 'as a guest' do
       fill_in 'password', with: 'ggg'
       fill_in 'password_confirmation', with: 'ggg'
 
-      click_on 'Register'
+      click_on 'Submit'
 
       expect(current_path).to eq('/dashboard')
+      expect(page).to have_content('Logged in as bob')
+      expect(page).to have_content('This account has not yet been activated. Please check your email.')
 
+      visit '/activation/1'
+
+      expect(current_path).to eq('/dashboard')
+      expect(page).to have_content('Thank you! Your account is now activated.')
+      expect(page).to have_content('Status: Active')
     end
   end
 end
