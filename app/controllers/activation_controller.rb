@@ -1,6 +1,5 @@
 class ActivationController < ApplicationController
   def update
-    binding.pry
     user = User.find_by(activation_token: params[:activation_token])
     user.update(status: 1)
     session[:user_id] = user.id
