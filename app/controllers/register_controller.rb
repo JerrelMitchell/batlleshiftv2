@@ -6,7 +6,7 @@ class RegisterController < ApplicationController
     user = User.create(register_params)
     session[:user_id] = user.id
     RegistrationNotifierMailer.register(user).deliver_now
-    flash[:notice] = "Successfully sent registration email to #{current_user.email}!"
+    flash[:notice] = "Successfully sent registration email to #{user.email}!"
     redirect_to '/dashboard'
   end
 

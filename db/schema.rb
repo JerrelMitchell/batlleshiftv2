@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 20180827213222) do
     t.string "activation_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["activation_token"], name: "index_users_on_activation_token", unique: true
+    t.index ["auth_token"], name: "index_users_on_auth_token", unique: true
   end
 
 end
