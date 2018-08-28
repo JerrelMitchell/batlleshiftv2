@@ -1,5 +1,8 @@
 <% if current_user %>
 <%= "Logged in as #{current_user.username}" %>
+<%= "Status: Active" if current_user.status == 1 %>
+<%= link_to "Logout", logout_path %>
 <% else %>
 <%= link_to "Register", register_path %>
+<%= link_to "Login", login_path %>
 <% end %>
