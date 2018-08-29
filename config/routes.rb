@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get '/dashboard', to: 'dashboard#index'
 
   get '/registration_notification', to: 'registration_notification#create'
-  get '/activation/:id', to: 'activation#update', as: 'activation'
+  get '/activation/:activation_token', to: 'activation#update', as: 'activation'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
