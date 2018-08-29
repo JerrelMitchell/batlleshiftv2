@@ -1,12 +1,18 @@
 class ShipPlacer
-  def initialize(board:, ship:, start_space:, end_space:)
-    @board       = board
-    @ship        = ship
+  attr_reader :board,
+  :ship,
+  :start_space,
+  :end_space
+
+  def initialize(board, ship, start_space, end_space)
+    @board      = board
+    @ship       = ship
     @start_space = start_space
     @end_space   = end_space
   end
 
   def run
+    @ship.place(start_space, end_space)
     if same_row?
       place_in_row
     elsif same_column?
@@ -16,9 +22,6 @@ class ShipPlacer
     end
   end
 
-  private
-  attr_reader :board, :ship,
-    :start_space, :end_space
 
   def same_row?
     start_space[0] == end_space[0]
