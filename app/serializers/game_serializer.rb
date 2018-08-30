@@ -11,6 +11,6 @@ class GameSerializer < ActiveModel::Serializer
   end
 
   def message
-    "Successfully placed ship with a size of 3. You have 1 ship(s) to place with a size of 2."
+    @instance_options[:message]
   end
 end
