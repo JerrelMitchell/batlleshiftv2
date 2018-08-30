@@ -6,13 +6,10 @@ class TurnProcessor
   end
 
   def run!
-    begin
-      attack_opponent
-      ai_attack_back
-      game.save!
-    rescue InvalidAttack => e
-      @messages << e.message
-    end
+    attack_opponent
+    game.save!
+  rescue MessageGenerator => e
+    @messages << e.message
   end
 
   def message
@@ -22,6 +19,14 @@ class TurnProcessor
   private
 
   attr_reader :game, :target
+
+  def player
+    Player.new(game.player_1_board)
+  end
+
+  def opponent
+    Player.new(game.player_2_board)
+  end
 
   def attack_opponent
     result = Shooter.fire!(board: opponent.board, target: target)
@@ -34,13 +39,4 @@ class TurnProcessor
     @messages << "The computer's shot resulted in a #{result}."
     game.player_2_turns += 1
   end
-
-  def player
-    Player.new(game.player_1_board)
-  end
-
-  def opponent
-    Player.new(game.player_2_board)
-  end
-
 end

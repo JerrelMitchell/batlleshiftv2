@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+  has_many :user_games
+  has_many :users, through: :user_games
   attr_accessor :messages
 
   enum current_turn: ["challenger", "opponent"]
