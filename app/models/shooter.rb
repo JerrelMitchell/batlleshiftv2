@@ -9,7 +9,7 @@ class Shooter
     if valid_shot?
       space.attack!
     else
-      raise MessageGenerator.new("Invalid coordinates.")
+      MessageGenerator.invalid_coordinates
     end
   end
 

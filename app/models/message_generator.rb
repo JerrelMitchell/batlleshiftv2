@@ -4,6 +4,10 @@ class MessageGenerator < StandardError
     super(msg)
   end
 
+  def self.invalid_coordinates
+    "Invalid coordinates"
+  end
+
   def place_ship(ship_size, ships_to_place)
     unless ships_to_place.count.zero?
       "Successfully placed ship with a size of #{ship_size}. "\
