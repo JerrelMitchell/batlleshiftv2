@@ -1,5 +1,4 @@
 class RowSerializer < ActiveModel::Serializer
-  alias :read_attribute_for_serialization :send
   attributes :name, :data
 
   def name
