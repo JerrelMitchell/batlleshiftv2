@@ -6,19 +6,19 @@ class Api::V1::Games::ShipsController < ApiController
 
     if current_user.user_games.first.player_type == "challenger"
       board = game.player_1_board
-      ship_placer = ShipPlacer.new(board: board, ship: board.get_ship, start_space: params[:start_space], end_space: params[:end_space])
+      ship_placer = ShipPlacer.new(board: board, ship: board.find_ship, start_space: params[:start_space], end_space: params[:end_space])
       ship_placer.ship.place(params[:start_space], params[:end_space])
       ship_placer.run
-      game.update(current_turn: 1) if game.player_1_board.ships_to_place.empty?
+      game.update(current_turn: 1) if game.player_1_board.ships.empty?
       game.update(player_1_board: ship_placer.board)
-      render json: game, message: MessageGenerator.new.place_ship(params[:ship_size], board.ships_to_place)
+      render json: game, message: MessageGenerator.new.place_ship(params[:ship_size], board.ships)
     elsif current_user.user_games.first.player_type == "opponent"
       board = game.player_2_board
-      ship_placer = ShipPlacer.new(board: board, ship: board.get_ship, start_space: params[:start_space], end_space: params[:end_space])
+      ship_placer = ShipPlacer.new(board: board, ship: board.find_ship, start_space: params[:start_space], end_space: params[:end_space])
       ship_placer.ship.place(params[:start_space], params[:end_space])
       ship_placer.run
-      game.update(current_turn: 0) if game.player_1_board.ships_to_place.empty?
-      render json: game, message: MessageGenerator.new.place_ship(params[:ship_size], board.ships_to_place)
+      game.update(current_turn: 0) if game.player_1_board.ships.empty?
+      render json: game, message: MessageGenerator.new.place_ship(params[:ship_size], board.ships)
     end
   end
 end

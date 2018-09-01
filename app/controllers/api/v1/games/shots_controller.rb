@@ -4,18 +4,14 @@ class Api::V1::Games::ShotsController < ApiController
     # render json: turn_processor.game, status: turn_processor.status, message: turn_processor.message
 
     if current_user
-      correct_turn = current_user.user_games.first.player_type == game.current_turn
+      correct_turn = current_user.player_type == game.current_turn
       turn_processor.run!
       if game.winner
         render json: game, status: :bad_request, message: "Invalid move. Game over."
       elsif correct_turn
         if valid_coordinates
-          if turn_processor.game_over?
-            game.update(winner: current_user.email)
-            render json: game, status: :ok, message: turn_processor.message
-          else
-            render json: game, status: :ok, message: turn_processor.message
-          end
+          game.update(winner: current_user.email) if turn_processor.game_over?
+          render json: game, status: :ok, message: turn_processor.message
         elsif !valid_coordinates
           render json: game, status: :bad_request, message: "Invalid coordinates"
         end
@@ -29,15 +25,19 @@ class Api::V1::Games::ShotsController < ApiController
 
   private
 
+  def game
+    @game ||= Game.find(params[:game_id])
+  end
+
+  def shot_target
+    params[:shot][:target]
+  end
+
   def valid_coordinates
-    @valid_coordinates ||= game.player_1_board.space_names.include?(params[:shot][:target])
+    @valid_coordinates ||= game.player_1_board.space_names.include?(shot_target)
   end
 
   def turn_processor
-    @turn_processor ||= TurnProcessor.new(game, params[:shot][:target], current_user.user_games.first.player_type)
-  end
-
-  def game
-    @game ||= Game.find(params[:game_id])
+    @turn_processor ||= TurnProcessor.new(game, shot_target, current_user.player_type)
   end
 end
