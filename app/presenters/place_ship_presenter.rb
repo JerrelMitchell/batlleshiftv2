@@ -1,4 +1,3 @@
-
 class PlaceShipPresenter
   attr_reader :game,
               :user,
@@ -24,8 +23,8 @@ class PlaceShipPresenter
   end
 
   def next_turn
-    return 1 if current_board.ships_to_place.empty? && game.challenger?
-    return 0 if current_board.ships_to_place.empty? && game.opponent?
+    return 1 if current_board.ships.empty? && game.challenger?
+    return 0 if current_board.ships.empty? && game.opponent?
     player - 1
   end
 
@@ -38,7 +37,7 @@ class PlaceShipPresenter
     if game
       ship_placer.ship.place(game_info[:start_space], game_info[:end_space])
       ship_placer.run
-      @message = MessageGenerator.new.place_ship(game_info[:ship_size], current_board.ships_to_place)
+      @message = MessageGenerator.new.place_ship(game_info[:ship_size], current_board.ships)
       @status = 200
     end
   end
@@ -46,6 +45,6 @@ class PlaceShipPresenter
   private
 
   def ship_placer
-    @ship_placer ||= ShipPlacer.new(board: current_board, ship: current_board.get_ship, start_space: game_info[:start_space], end_space: game_info[:end_space])
+    @ship_placer ||= ShipPlacer.new(board: current_board, ship: current_board.find_ship, start_space: game_info[:start_space], end_space: game_info[:end_space])
   end
 end
