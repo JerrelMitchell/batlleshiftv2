@@ -9,7 +9,7 @@ class Shooter
     if valid_shot?
       space.attack!
     else
-      raise InvalidAttack.new("Invalid coordinates.")
+      MessageGenerator.invalid_coordinates
     end
   end
 
@@ -17,20 +17,15 @@ class Shooter
     new(board: board, target: target).fire!
   end
 
-  private
-    attr_reader :board, :target
+private
 
-    def space
-      @space ||= board.locate_space(target)
-    end
+  attr_reader :board, :target
 
-    def valid_shot?
-      board.space_names.include?(target)
-    end
-end
+  def space
+    @space ||= board.locate_space(target)
+  end
 
-class InvalidAttack < StandardError
-  def initialize(msg = "Invalid attack.")
-    super(msg)
+  def valid_shot?
+    board.space_names.include?(target)
   end
 end

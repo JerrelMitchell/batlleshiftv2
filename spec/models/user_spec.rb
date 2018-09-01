@@ -9,4 +9,9 @@ describe User, type: :model do
   it {should validate_uniqueness_of :auth_token }
   it {should validate_uniqueness_of :activation_token }
   end
+
+  context 'relationships' do
+    it {should have_many :games}
+    it {should have_many :user_games}
+  end
 end

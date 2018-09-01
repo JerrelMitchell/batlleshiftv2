@@ -11,6 +11,12 @@ describe "Api::V1::Shots" do
         player_2_board: player_2_board
       )
     }
+    let(:user1) {
+        create(:user, username: 'example', email: 'example1@example.com', password: 'example', game: game )
+      }
+      let(:user2) {
+        create(:user, username: 'example2', email: 'example2@example.com', password: 'example', game: game)
+      }
 
     it "updates the message and board with a hit" do
       allow_any_instance_of(AiSpaceSelector).to receive(:fire!).and_return("Miss")

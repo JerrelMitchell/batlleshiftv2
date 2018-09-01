@@ -1,10 +1,37 @@
 class Board
   attr_reader :length,
-              :board
+              :board,
+              :ships_to_place,
+              :sunk_ships,
+              :pieces
 
-  def initialize(length)
+  def initialize(length, pieces = 2)
+    @pieces = pieces
+    @ships_to_place = make_ships(pieces)
     @length = length
     @board = create_grid
+    @sunk_ships = 0
+  end
+
+  def add_sunken_ship
+    @sunk_ships += 1
+  end
+
+  def all_sunk?
+    sunk_ships >= pieces
+  end
+
+  def get_ship
+    @ships_to_place.shift
+  end
+
+  def make_ships(pieces)
+    ships = []
+    until pieces < 1
+      ships << Ship.new(pieces + 1)
+      pieces -= 1
+    end
+    ships
   end
 
   def get_row_letters
