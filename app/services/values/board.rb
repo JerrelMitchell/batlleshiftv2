@@ -5,7 +5,7 @@ class Board
               :sunk_ships,
               :pieces
 
-  def initialize(length, pieces = 2)
+  def initialize(length = 4, pieces = 2)
     @pieces = pieces
     @ships_to_place = make_ships(pieces)
     @length = length
