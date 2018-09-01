@@ -1,7 +1,7 @@
 class Api::V1::GamesController < ApiController
   def show
-    if find_game
-      render json: find_game
+    if game
+      render json: game
     else
       render status: :bad_request
     end
@@ -19,8 +19,8 @@ class Api::V1::GamesController < ApiController
     current_user.games.create(player_1_board: Board.new, player_2_board: Board.new)
   end
 
-  def find_game
-    @find_game ||= Game.find_by(id: params[:id])
+  def game
+    @game ||= Game.find_by(id: params[:id])
   end
 
   def user2
