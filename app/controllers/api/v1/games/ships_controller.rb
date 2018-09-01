@@ -1,36 +1,20 @@
 class Api::V1::Games::ShipsController < ApiController
   def create
-    presenter = PlaceShipPresenter.new(params[:game_id], current_user).authenticate
-
-    game = current_user.games.find(params[:game_id]) if current_user
-
-    if current_user.user_games.first.player_type == "challenger"
-      board = game.player_1_board
-      ship_placer = ShipPlacer.new(board: board, ship: board.get_ship, start_space: params[:start_space], end_space: params[:end_space])
-      ship_placer.ship.place(params[:start_space], params[:end_space])
-      ship_placer.run
-      game.update(current_turn: 1) if game.player_1_board.ships_to_place.empty?
-      game.update(player_1_board: ship_placer.board)
-      render json: game, message: MessageGenerator.new.place_ship(params[:ship_size], board.ships_to_place)
-    elsif current_user.user_games.first.player_type == "opponent"
-      board = game.player_2_board
-      ship_placer = ShipPlacer.new(board: board, ship: board.get_ship, start_space: params[:start_space], end_space: params[:end_space])
-      ship_placer.ship.place(params[:start_space], params[:end_space])
-      ship_placer.run
-      game.update(current_turn: 0) if game.player_1_board.ships_to_place.empty?
-      render json: game, message: MessageGenerator.new.place_ship(params[:ship_size], board.ships_to_place)
-    end
-  end
-end
-
-class PlaceShipPresenter
-
-  def initialize(game_id, current_user)
-    @game = current_user.games.find(game_id) if current_user
-    @user = current_user
+    presenter = PlaceShipPresenter.new(placement_params, current_user)
+    presenter.place_ship_on_correct_board
+    game.update("player_#{presenter.player}_board" => presenter.current_board,
+                "current_turn" => presenter.next_turn)
+    render json: game, status: presenter.status, message: presenter.message
   end
 
-  def authenticate
-    return self unless @game.nil?
+  private
+
+  def game
+    @game ||= Game.find(placement_params[:game_id])
   end
+
+  def placement_params
+    params.permit(:game_id, :ship_size, :start_space, :end_space)
+  end
+
 end
