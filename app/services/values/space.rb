@@ -4,19 +4,19 @@ class Space
   def initialize(coordinates)
     @coordinates = coordinates
     @contents    = nil
-    @status      = "Not Attacked"
+    @status      = 'Not Attacked'
   end
 
   def attack!
     @status = if contents && not_attacked?
                 contents.attack!
                 if contents.is_sunk?
-                  "Hit. Battleship sunk."
+                  'Hit. Battleship sunk.'
                 else
-                  "Hit"
+                  'Hit'
                 end
               else
-                "Miss"
+                'Miss'
               end
   end
 
@@ -29,6 +29,6 @@ class Space
   end
 
   def not_attacked?
-    status == "Not Attacked"
+    status == 'Not Attacked'
   end
 end
