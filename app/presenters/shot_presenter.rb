@@ -9,10 +9,10 @@ class ShotPresenter
               :winner
 
   def initialize(shot_info, user, processor)
+    @user = user
     @target = shot_info[:target]
     @game = user.games.find(shot_info[:game_id]) if user
     @processor = processor
-    @user = user
   end
 
   def unauthorized?
