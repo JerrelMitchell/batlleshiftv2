@@ -1,5 +1,5 @@
 
-class ShotValidator
+class ShotPresenter
   attr_reader :game,
               :user,
               :processor,

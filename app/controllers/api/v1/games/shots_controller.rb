@@ -1,8 +1,8 @@
 class Api::V1::Games::ShotsController < ApiController
   def create
-    validator = ShotValidator.new(shot_params, current_user, turn_processor).run
-    game.update(winner: validator.winner) if validator.winner
-    render json: game, status: validator.status, message: validator.message
+    presenter = ShotPresenter.new(shot_params, current_user, turn_processor).run
+    game.update(winner: presenter.winner) if presenter.winner
+    render json: game, status: presenter.status, message: presenter.message
   end
 
   private
