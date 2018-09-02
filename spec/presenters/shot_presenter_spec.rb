@@ -25,6 +25,23 @@ describe ShotPresenter, type: :model do
     @bad_shot_params = {target: 'X1', game_id: @game.id}
   end
 
+  it 'exists' do
+    presenter = ShotPresenter.new(@shot_params, @user1, @turn_processor)
+    expect(presenter).to be_a(ShotPresenter)
+  end
+
+  it 'has attributes' do
+    presenter = ShotPresenter.new(@shot_params, @user1, @turn_processor)
+
+    expect(presenter.game).to eq(@game)
+    expect(presenter.user).to eq(@user1)
+    expect(presenter.processor).to eq(@turn_processor)
+    expect(presenter.status).to eq(nil)
+    expect(presenter.message).to eq(nil)
+    expect(presenter.target).to eq(@shot_params[:target])
+    expect(presenter.winner).to eq(nil)
+  end
+
   it 'tests if unauthorized' do
     presenter = ShotPresenter.new(@shot_params, @user1, @turn_processor)
     expect(presenter.unauthorized?).to eq(false)
