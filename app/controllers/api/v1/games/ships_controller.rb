@@ -1,9 +1,8 @@
 class Api::V1::Games::ShipsController < ApiController
+
   def create
-    presenter = PlaceShipPresenter.new(placement_params, current_user)
-    presenter.place_ship_on_correct_board
-    game.update("player_#{presenter.player}_board" => presenter.current_board,
-                "current_turn" => presenter.next_turn)
+    presenter = PlaceShipPresenter.new(placement_params, current_user).run
+    game.update(presenter.game_update)
     render json: game, status: presenter.status, message: presenter.message
   end
 
