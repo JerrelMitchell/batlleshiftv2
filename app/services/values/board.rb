@@ -63,7 +63,7 @@ class Board
     spaces = create_spaces
     assign_spaces_to_rows.map do |row|
       row.each.with_index do |coordinates, index|
-        row[index] = {coordinates => spaces[coordinates]}
+        row[index] = { coordinates => spaces[coordinates] }
       end
     end
   end

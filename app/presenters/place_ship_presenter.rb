@@ -19,7 +19,6 @@ class PlaceShipPresenter
   end
 
   def game_update
-    @game_update ||= {"player_#{@processor.player}_board" => @processor.current_board,
-                "current_turn" => @processor.next_turn}
+    @game_update ||= { "player_#{@processor.player}_board" => @processor.current_board, 'current_turn' => @processor.next_turn }
   end
 end
