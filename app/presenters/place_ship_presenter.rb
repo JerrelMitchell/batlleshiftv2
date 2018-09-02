@@ -1,4 +1,5 @@
 class PlaceShipPresenter
+  attr_reader :processor
 
   def initialize(placement_params, current_user)
     @processor = PlaceShipProcessor.new(placement_params, current_user)
@@ -18,7 +19,6 @@ class PlaceShipPresenter
   end
 
   def game_update
-    @game_update ||= {"player_#{@processor.player}_board" => @processor.current_board,
-                "current_turn" => @processor.next_turn}
+    @game_update ||= { "player_#{@processor.player}_board" => @processor.current_board, 'current_turn' => @processor.next_turn }
   end
 end

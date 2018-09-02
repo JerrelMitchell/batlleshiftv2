@@ -35,8 +35,6 @@ describe 'GET /api/v1/games/1' do
       game_attributes = {
                       player_1_board: player_1_board,
                       player_2_board: player_2_board,
-                      player_1_turns: 0,
-                      player_2_turns: 0,
                       current_turn: "challenger"
                     }
 
@@ -45,7 +43,7 @@ describe 'GET /api/v1/games/1' do
 
       get "/api/v1/games/#{game.id}"
 
-      actual  = JSON.parse(response.body, symbolize_names: true)
+      actual   = JSON.parse(response.body, symbolize_names: true)
       expected = Game.last
 
       expect(response).to be_success
@@ -62,7 +60,6 @@ describe 'GET /api/v1/games/1' do
 
   describe 'with no game' do
     it 'returns a 400' do
-
       get "/api/v1/games/1"
 
       expect(response.status).to be(400)

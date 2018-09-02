@@ -4,6 +4,7 @@ class TurnProcessor
     @target = target
     @player_type = player_type
     @messages = []
+    @message_generator = MessageGenerator
   end
 
   def correct_turn?
@@ -19,25 +20,25 @@ class TurnProcessor
   end
 
   def run!
-    if game.current_turn == "challenger" && correct_turn? && valid_target
+    if game.challenger? && correct_turn? && valid_target
       attack_opponent
-      game.current_turn = "opponent"
-    elsif game.current_turn == "opponent" && correct_turn? && valid_target
+      game.opponent!
+    elsif game.opponent? && correct_turn? && valid_target
       attack_challenger
-      game.current_turn = "challenger"
+      game.challenger!
+    else
+      @messages << MessageGenerator.invalid_attack
     end
-      game.save!
-  rescue MessageGenerator => e
-    @messages << e.message
+    game.save!
   end
 
   def message
-    @messages.join(" ")
+    @messages.join(' ')
   end
 
   private
 
-  attr_reader :game, :target, :player_type
+  attr_reader :game, :target, :player_type, :message_generator
 
   def player
     Player.new(game.player_1_board)
@@ -49,7 +50,7 @@ class TurnProcessor
 
   def attack_opponent
     result = Shooter.fire!(board: opponent.board, target: target)
-    if result.include?("sunk.")
+    if result.include?('sunk.')
       game.player_2_board.add_sunken_ship
     end
     generate_message(result)
@@ -61,10 +62,10 @@ class TurnProcessor
   end
 
   def generate_message(result)
-    if game.player_2_board.all_sunk?
-      @messages << "Your shot resulted in a #{result} Game over."
+    if game.player_1_board.all_sunk? || game.player_2_board.all_sunk?
+      @messages << message_generator.game_over_shot
     else
-      @messages << "Your shot resulted in a #{result}."
+      @messages << message_generator.shot_result(result)
     end
   end
 end

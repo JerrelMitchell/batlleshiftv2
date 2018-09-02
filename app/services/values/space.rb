@@ -2,21 +2,22 @@ class Space
   attr_reader :coordinates, :status, :contents
 
   def initialize(coordinates)
-    @coordinates = coordinates
-    @contents    = nil
-    @status      = "Not Attacked"
+    @coordinates       = coordinates
+    @contents          = nil
+    @message_generator = MessageGenerator
+    @status            = @message_generator.not_attacked
   end
 
   def attack!
     @status = if contents && not_attacked?
                 contents.attack!
                 if contents.is_sunk?
-                  "Hit. Battleship sunk."
+                  message_generator.sink_ship
                 else
-                  "Hit"
+                  message_generator.hit
                 end
               else
-                "Miss"
+                message_generator.miss
               end
   end
 
@@ -25,10 +26,14 @@ class Space
   end
 
   def occupied?
-    !!@contents
+    !!contents
   end
 
   def not_attacked?
-    status == "Not Attacked"
+    status == message_generator.not_attacked
   end
+
+  private
+
+  attr_reader :message_generator
 end

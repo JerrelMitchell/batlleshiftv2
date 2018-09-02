@@ -6,11 +6,11 @@ class PlaceShipProcessor
               :status,
               :player_type
 
-  def initialize(game_info, current_user)
-    @game = current_user.games.find(game_info[:game_id]) if current_user
-    @user = current_user
+  def initialize(game_info, user)
+    @game = user.games.find(game_info[:game_id]) if user
+    @user = user
     @game_info = game_info
-    @player_type = current_user.user_games.first.player_type
+    @player_type = user.player_type
     @status = 401
   end
 
@@ -37,7 +37,7 @@ class PlaceShipProcessor
     if game
       ship_placer.ship.place(game_info[:start_space], game_info[:end_space])
       ship_placer.run
-      @message = MessageGenerator.new.place_ship(game_info[:ship_size], current_board.ships)
+      @message = MessageGenerator.place_ship(game_info[:ship_size], current_board.ships)
       @status = 200
     end
   end

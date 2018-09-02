@@ -2,7 +2,7 @@ class Shooter
   def initialize(board:, target:)
     @board     = board
     @target    = target
-    @message   = ""
+    @message   = ''
   end
 
   def fire!
@@ -17,7 +17,7 @@ class Shooter
     new(board: board, target: target).fire!
   end
 
-private
+  private
 
   attr_reader :board, :target
 

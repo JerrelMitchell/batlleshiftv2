@@ -3,7 +3,7 @@ class RowSerializer < ActiveModel::Serializer
 
   def name
     row_letter = object.first.keys.first.first.downcase
-    ["row", row_letter].join("_")
+    ['row', row_letter].join('_')
   end
 
   def data
