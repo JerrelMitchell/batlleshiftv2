@@ -1,4 +1,5 @@
 class PlaceShipPresenter
+  attr_reader :processor
 
   def initialize(placement_params, current_user)
     @processor = PlaceShipProcessor.new(placement_params, current_user)
