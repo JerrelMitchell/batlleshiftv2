@@ -16,6 +16,7 @@ class Api::V1::Games::ShotsController < ApiController
   end
 
   def turn_processor
-    @turn_processor ||= TurnProcessor.new(game, shot_params[:target], current_user.player_type) if current_user
+    @turn_processor ||= TurnProcessor.new(game, shot_params[:target],
+                                      current_user.player_type) if current_user
   end
 end
