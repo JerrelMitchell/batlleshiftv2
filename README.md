@@ -3,7 +3,7 @@
 
 ## Stephen & Jerrel
 
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/JerrelMitchell/batlleshiftv2.svg?columns=all)](https://waffle.io/JerrelMitchell/batlleshiftv2)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/JerrelMitchell/battleshiftv2.svg?columns=all)](https://waffle.io/JerrelMitchell/battleshiftv2)
 
 We built on top of a pre-existing API implementation of the game Battleship. For this project we added multiplayer functionality and basic levels of security.
 
