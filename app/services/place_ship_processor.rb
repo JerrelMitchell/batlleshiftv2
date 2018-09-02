@@ -37,7 +37,7 @@ class PlaceShipProcessor
     if game
       ship_placer.ship.place(game_info[:start_space], game_info[:end_space])
       ship_placer.run
-      @message = MessageGenerator.new.place_ship(game_info[:ship_size], current_board.ships)
+      @message = MessageGenerator.place_ship(game_info[:ship_size], current_board.ships)
       @status = 200
     end
   end
