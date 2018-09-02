@@ -1,30 +1,8 @@
 class Api::V1::Games::ShotsController < ApiController
   def create
-    # if current_user
-    #   turn_processor.run!
-    #   render json: turn_processor.game, status: turn_processor.status, message: turn_processor.message
-    # else
-    #   render json: game, status: :unauthorized, message: "Unauthorized"
-    # end
-
-    if current_user
-      correct_turn = current_user.player_type == game.current_turn
-      turn_processor.run!
-      if game.winner
-        render json: game, status: :bad_request, message: "Invalid move. Game over."
-      elsif correct_turn
-        if valid_coordinates?
-          game.update(winner: current_user.email) if turn_processor.game_over?
-          render json: game, status: :ok, message: turn_processor.message
-        elsif !valid_coordinates?
-          render json: game, status: :bad_request, message: "Invalid coordinates"
-        end
-      elsif !correct_turn
-        render json: game, status: :bad_request, message: "Invalid move. It's your opponent's turn"
-      end
-    else
-      render json: game, status: :unauthorized, message: "Unauthorized"
-    end
+    validator = ShotValidator.new(shot_params, current_user, turn_processor).run
+    game.update(winner: validator.winner) if validator.winner
+    render json: game, status: validator.status, message: validator.message
   end
 
   private
@@ -33,15 +11,12 @@ class Api::V1::Games::ShotsController < ApiController
     @game ||= Game.find(params[:game_id])
   end
 
-  def shot_target
-    params[:shot][:target]
-  end
-
-  def valid_coordinates?
-    @valid_coordinates ||= game.player_1_board.space_names.include?(shot_target)
+  def shot_params
+    params.permit(:target, :game_id)
   end
 
   def turn_processor
-    @turn_processor ||= TurnProcessor.new(game, shot_target, current_user.player_type)
+    @turn_processor ||= TurnProcessor.new(game, shot_params[:target], current_user.player_type) if current_user
   end
+
 end
