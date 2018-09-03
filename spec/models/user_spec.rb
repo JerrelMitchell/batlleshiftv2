@@ -16,20 +16,16 @@ RSpec.describe User, type: :model do
   end
 
   context '#methods' do
-    before(:each) do
-      @user = create :user
+    it 'returns #player_type belonging to game through user_game join table' do
+      user = create :user
       player_1_board = Board.new(4)
       player_2_board = Board.new(4)
+      game_attributes = { player_1_board: player_1_board,
+                           player_2_board: player_2_board,
+                           current_turn: 'challenger' }
+      user.games.create!(game_attributes)
 
-      @game_attributes = {
-        player_1_board: player_1_board,
-        player_2_board: player_2_board,
-        current_turn: 'challenger'
-      }
-      @user.games.create!(@game_attributes)
-    end
-    it 'returns #player_type belonging to game through user_game join table' do
-      expect(@user.player_type).to eq(@game_attributes[:current_turn])
+      expect(user.player_type).to eq(game_attributes[:current_turn])
     end
   end
 end
