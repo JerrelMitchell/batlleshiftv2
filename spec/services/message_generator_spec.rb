@@ -49,16 +49,18 @@ RSpec.describe MessageGenerator, type: :model do
         ship1 = Ship.new(3)
         ship2 = Ship.new(2)
         ships_to_place += [ship1, ship2]
+        message = "Successfully placed ship with a size of #{ship1.length}. You have #{ships_to_place.count} ship(s) to place with a size of #{ships_to_place.first.length}."
 
-        expect(message_generator.place_ship(ship1.length, ships_to_place)).to eq("Successfully placed ship with a size of #{ship1.length}. You have #{ships_to_place.count} ship(s) to place with a size of #{ships_to_place.first.length}.")
+        expect(message_generator.place_ship(ship1.length, ships_to_place)).to eq(message)
       end
 
       it 'has a message for #place_ship when you have no more ships to place' do
         message_generator = MessageGenerator
         ships_to_place = []
         ship1 = Ship.new(2)
+        message = "Successfully placed ship with a size of #{ship1.length}. You have #{ships_to_place.count} ship(s) to place."
 
-        expect(message_generator.place_ship(ship1.length, ships_to_place)).to eq("Successfully placed ship with a size of #{ship1.length}. You have #{ships_to_place.count} ship(s) to place.")
+        expect(message_generator.place_ship(ship1.length, ships_to_place)).to eq(message)
       end
     end
   end
