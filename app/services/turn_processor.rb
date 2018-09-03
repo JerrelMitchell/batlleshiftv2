@@ -8,64 +8,52 @@ class TurnProcessor
   end
 
   def correct_turn?
-    game.current_turn == player_type
+    @game.current_turn == @player_type
   end
 
   def valid_target
-    game.player_1_board.space_names.include?(target)
+    @game.player_1_board.space_names.include?(@target)
   end
 
   def game_over?
-    game.player_1_board.all_sunk? || game.player_2_board.all_sunk?
+    @game.player_1_board.all_sunk? || @game.player_2_board.all_sunk?
   end
 
   def run!
-    if game.challenger? && correct_turn? && valid_target
+    if @game.challenger? && correct_turn? && valid_target
       attack_opponent
-      game.opponent!
-    elsif game.opponent? && correct_turn? && valid_target
+      @game.opponent!
+    elsif @game.opponent? && correct_turn? && valid_target
       attack_challenger
-      game.challenger!
+      @game.challenger!
     else
       @messages << MessageGenerator.invalid_attack
     end
-    game.save!
+    @game.save!
   end
 
   def message
     @messages.join(' ')
   end
 
-  private
-
-  attr_reader :game, :target, :player_type, :message_generator
-
-  def player
-    Player.new(game.player_1_board)
-  end
-
-  def opponent
-    Player.new(game.player_2_board)
-  end
-
   def attack_opponent
-    result = Shooter.fire!(board: opponent.board, target: target)
+    result = Shooter.fire!(board: @game.player_2_board, target: @target)
     if result.include?('sunk.')
-      game.player_2_board.add_sunken_ship
+      @game.player_2_board.add_sunken_ship
     end
     generate_message(result)
   end
 
   def attack_challenger
-    result = Shooter.fire!(board: player.board, target: target)
+    result = Shooter.fire!(board: @game.player_1_board, target: @target)
     generate_message(result)
   end
 
   def generate_message(result)
-    if game.player_1_board.all_sunk? || game.player_2_board.all_sunk?
-      @messages << message_generator.game_over_shot
+    if @game.player_1_board.all_sunk? || @game.player_2_board.all_sunk?
+      @messages << @message_generator.game_over_shot
     else
-      @messages << message_generator.shot_result(result)
+      @messages << @message_generator.shot_result(result)
     end
   end
 end
