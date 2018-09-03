@@ -4,12 +4,24 @@ class MessageGenerator < StandardError
     'Not Attacked'
   end
 
+  def self.same_row_or_column
+    'Ship must be in either the same row or column.'
+  end
+
+  def self.occupied
+    'Attempting to place ship in a space that is already occupied.'
+  end
+
   def self.hit
     'Hit'
   end
 
   def self.miss
     'Miss'
+  end
+
+  def self.invalid_ship_placement
+    'Invalid ship placement'
   end
 
   def self.sink_ship
