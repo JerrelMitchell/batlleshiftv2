@@ -1,5 +1,5 @@
 class Space
-  attr_reader :coordinates, :status, :contents
+  attr_reader :coordinates, :status, :contents, :fired_on
 
   def initialize(coordinates)
     @coordinates       = coordinates
@@ -15,8 +15,11 @@ class Space
                 else
                   message_generator.hit
                 end
-              else
+              elsif !contents && not_attacked?
                 message_generator.miss
+              else
+                @fired_on = true
+                @status
               end
   end
 

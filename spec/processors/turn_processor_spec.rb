@@ -57,13 +57,13 @@ describe TurnProcessor, type: :model do
   end
 
   it 'can attack_opponent' do
-    allow_any_instance_of(Shooter).to receive(:fire!).and_return('Hit. Battleship sunk.')
+    allow_any_instance_of(Shooter).to receive(:message).and_return('Hit. Battleship sunk.')
 
     expect(@tp1.attack_opponent).to eq(["Your shot resulted in a Hit. Battleship sunk.."])
   end
 
   it 'can attack_challenger' do
-    allow_any_instance_of(Shooter).to receive(:fire!).and_return('Hit. Battleship sunk.')
+    allow_any_instance_of(Shooter).to receive(:message).and_return('Hit. Battleship sunk.')
 
     expect(@tp1.attack_challenger).to eq(["Your shot resulted in a Hit. Battleship sunk.."])
   end

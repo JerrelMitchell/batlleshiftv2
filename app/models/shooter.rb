@@ -1,4 +1,6 @@
 class Shooter
+  attr_reader :message
+
   def initialize(board:, target:)
     @board     = board
     @target    = target
@@ -8,13 +10,17 @@ class Shooter
   def fire!
     if !valid_shot?
       raise MessageGenerator.invalid_coordinates
-    elsif already_fired? && valid_shot?
-      raise MessageGenerator.already_fired
     elsif valid_shot?
       space.attack!
+      @message = space.status
     end
+    self
   end
 
+  def fired_on?
+    space.fired_on
+  end
+  
   def self.fire!(board:, target:)
     new(board: board, target: target).fire!
   end
@@ -31,7 +37,7 @@ class Shooter
     board.space_names.include?(target)
   end
 
-  def already_fired?
-    !(space.not_attacked?)
+  def not_attacked?
+    space.not_attacked?
   end
 end

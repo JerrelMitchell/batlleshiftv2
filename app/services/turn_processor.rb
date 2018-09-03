@@ -22,10 +22,10 @@ class TurnProcessor
   def run!
     if @game.challenger? && correct_turn? && valid_target
       attack_opponent
-      @game.opponent!
+      @game.opponent! unless @shooter.fired_on?
     elsif @game.opponent? && correct_turn? && valid_target
       attack_challenger
-      @game.challenger!
+      @game.challenger! unless @shooter.fired_on?
     else
       @messages << MessageGenerator.invalid_attack
     end
@@ -37,15 +37,15 @@ class TurnProcessor
   end
 
   def attack_opponent
-    result = Shooter.fire!(board: @game.player_2_board, target: @target)
-    @game.player_2_board.add_sunken_ship if result.include?('sunk.')
-    generate_message(result)
+    shooter = shooter(@game.player_2_board)
+    @game.player_2_board.add_sunken_ship if shooter.message.include?('sunk.')
+    generate_message(shooter.message)
   end
 
   def attack_challenger
-    result = Shooter.fire!(board: @game.player_1_board, target: @target)
-    @game.player_1_board.add_sunken_ship if result.include?('sunk.')
-    generate_message(result)
+    shooter = shooter(@game.player_1_board)
+    @game.player_1_board.add_sunken_ship if shooter.message.include?('sunk.')
+    generate_message(shooter.message)
   end
 
   def generate_message(result)
@@ -54,5 +54,11 @@ class TurnProcessor
     else
       @messages << @message_generator.shot_result(result)
     end
+  end
+
+  private
+
+  def shooter(board)
+    @shooter ||= Shooter.fire!(board: board, target: @target)
   end
 end
