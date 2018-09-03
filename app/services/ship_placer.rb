@@ -11,7 +11,6 @@ class ShipPlacer
     @end_space   = info[:end_space]
   end
 
-
   def run
     if same_row?
       place_in_row
