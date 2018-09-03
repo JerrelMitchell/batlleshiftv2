@@ -11,7 +11,8 @@ class PlaceShipProcessor
     @user = user
     @game_info = game_info
     @player_type = user.player_type(@game.id)
-    @status = 401
+    @status = 200
+    @message = ''
   end
 
   def current_board
@@ -36,9 +37,24 @@ class PlaceShipProcessor
   def place_ship_on_correct_board
     if game
       ship_placer.run
-      @message = MessageGenerator.place_ship(game_info[:ship_size], current_board.ships)
-      @status = 200
+      return ship_placed unless ship_placer.message
+      ship_not_placed(ship_placer.message)
     end
+  end
+
+  def unauthorized
+    @status = 401
+    @message = "Unauthorized"
+  end
+
+  def ship_not_placed(message)
+    @status = 400
+    @message = message
+  end
+
+  def ship_placed
+    @status = 200
+    @message = MessageGenerator.place_ship(game_info[:ship_size], current_board.ships)
   end
 
   private

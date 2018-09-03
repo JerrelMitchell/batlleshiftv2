@@ -52,34 +52,40 @@ describe ShipPlacer do
   end
 
   it "doesn't place the ship if it isn't within the same row or column" do
-    expect {
-      ShipPlacer.new(board: board, ship: ship, start_space: "A1", end_space: "B2").run
-    }.to raise_error('Ship must be in either the same row or column.')
+    ship_placer = ShipPlacer.new(board: board, ship: ship, start_space: "A1", end_space: "B2")
+    ship_placer.run
+    expect(ship_placer.message).to eq('Ship must be in either the same row or column.')
   end
 
   it "doesn't place the ship if the space is occupied when placing in columns" do
     ShipPlacer.new(board: board, ship: ship, start_space: "A1", end_space: "B1").run
-    expect {
-      ShipPlacer.new(board: board, ship: ship, start_space: "A1", end_space: "B1").run
-    }.to raise_error('Attempting to place ship in a space that is already occupied.')
+    sp = ShipPlacer.new(board: board, ship: ship, start_space: "A1", end_space: "B1")
+    sp.run
+    expect(sp.message).to eq('Attempting to place ship in a space that is already occupied.')
   end
 
   it "doesn't place the ship if the space is occupied when placing in rows" do
     ShipPlacer.new(board: board, ship: ship, start_space: "A1", end_space: "A2").run
-    expect {
-      ShipPlacer.new(board: board, ship: ship, start_space: "A1", end_space: "A2").run
-    }.to raise_error('Attempting to place ship in a space that is already occupied.')
+    sp = ShipPlacer.new(board: board, ship: ship, start_space: "A1", end_space: "A2")
+    sp.run
+    expect(sp.message).to eq('Attempting to place ship in a space that is already occupied.')
   end
 
   it "doesn't place the ship if the ship is smaller than the supplied range in a row" do
-    expect {
-      ShipPlacer.new(board: board, ship: ship, start_space: "A1", end_space: "A3").run
-    }.to raise_error('Invalid ship placement')
+    sp = ShipPlacer.new(board: board, ship: ship, start_space: "A1", end_space: "A3")
+    sp.run
+    expect(sp.message).to eq('Invalid ship placement')
   end
 
   it "doesn't place the ship if the ship is smaller than the supplied range in a column" do
-    expect {
-      ShipPlacer.new(board: board, ship: ship, start_space: "A1", end_space: "C1").run
-    }.to raise_error('Invalid ship placement')
+    sp = ShipPlacer.new(board: board, ship: ship, start_space: "A1", end_space: "C1")
+    sp.run
+    expect(sp.message).to eq('Invalid ship placement')
+  end
+
+  it "doesn't place the ship one of coordinates outside of board" do
+    sp = ShipPlacer.new(board: board, ship: ship, start_space: "D4", end_space: "D5")
+    sp.run
+    expect(sp.message).to eq('Invalid ship placement')
   end
 end

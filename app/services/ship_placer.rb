@@ -2,7 +2,8 @@ class ShipPlacer
   attr_reader :board,
               :ship,
               :start_space,
-              :end_space
+              :end_space,
+              :message
 
   def initialize(info)
     @board      = info[:board]
@@ -17,7 +18,7 @@ class ShipPlacer
     elsif same_column?
       place_in_column
     else
-      raise message_generator.same_row_or_column
+      @message = message_generator.same_row_or_column
     end
   end
 
@@ -33,22 +34,24 @@ class ShipPlacer
   def place_in_row
     row = start_space[0]
     range = start_space[1]..end_space[1]
-    raise message_generator.invalid_ship_placement unless range.count == ship.length
+    @message = message_generator.invalid_ship_placement unless range.count == ship.length
     range.each { |column| place_ship(row, column) }
   end
 
   def place_in_column
     column = start_space[1]
     range  = start_space[0]..end_space[0]
-    raise message_generator.invalid_ship_placement unless range.count == ship.length
+    @message = message_generator.invalid_ship_placement unless range.count == ship.length
     range.each { |row| place_ship(row, column) }
   end
 
   def place_ship(row, column)
     coordinates = "#{row}#{column}"
     space = board.locate_space(coordinates)
-    if space.occupied?
-      raise message_generator.occupied
+    if space.class != Space
+      @message = message_generator.invalid_ship_placement
+    elsif space.occupied?
+      @message = message_generator.occupied
     else
       space.occupy!(ship)
     end

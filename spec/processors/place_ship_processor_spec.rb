@@ -25,7 +25,7 @@ describe PlaceShipProcessor, type: :model do
     expect(psp.user).to eq(@user1)
     expect(psp.game_info).to eq(@param_info)
     expect(psp.player_type).to eq(@user1.player_type(@game.id))
-    expect(psp.status).to eq(401)
+    expect(psp.status).to eq(200)
   end
 
   it 'can tell whos turn is next' do
@@ -60,7 +60,7 @@ describe PlaceShipProcessor, type: :model do
   it 'can place ship on correct board' do
     psp = PlaceShipProcessor.new(@param_info, @user1)
 
-    expect(psp.place_ship_on_correct_board).to eq(200)
+    expect(psp.place_ship_on_correct_board).to eq("Successfully placed ship with a size of 3. You have 1 ship(s) to place with a size of 2.")
     expect(psp.game.player_1_board.board[0][0]["A1"].contents).to be_a(Ship)
   end
 end
