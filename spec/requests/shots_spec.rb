@@ -4,19 +4,8 @@ describe "Api::V1::Shots" do
   context "POST /api/v1/games/:id/shots" do
     let(:player_1_board)   { Board.new(4) }
     let(:player_2_board)   { Board.new(4) }
-    let(:sm_ship) { Ship.new(2) }
-    let(:game)    {
-      create(:game,
-        player_1_board: player_1_board,
-        player_2_board: player_2_board
-      )
-    }
-    let(:user1) {
-        create(:user, username: 'example', email: 'example1@example.com', password: 'example', game: game )
-      }
-      let(:user2) {
-        create(:user, username: 'example2', email: 'example2@example.com', password: 'example', game: game)
-      }
+    let(:sm_ship)          { Ship.new(2) }
+    let(:game)             { create(:game, player_1_board: player_1_board, player_2_board: player_2_board) }
 
     it "updates the message and board with a hit" do
       ShipPlacer.new(board: player_2_board,
