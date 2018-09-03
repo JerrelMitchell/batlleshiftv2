@@ -20,8 +20,8 @@ describe TurnProcessor, type: :model do
     @game.update(presenter.game_update)
     presenter = PlaceShipPresenter.new(param_4, @user2).run
     @game.update(presenter.game_update)
-    @tp1 = TurnProcessor.new(@game, "A1", @user1.player_type)
-    @tp2 = TurnProcessor.new(@game, "X1", @user2.player_type)
+    @tp1 = TurnProcessor.new(@game, "A1", @user1.player_type(@game.id))
+    @tp2 = TurnProcessor.new(@game, "X1", @user2.player_type(@game.id))
   end
 
   it 'can check if correct turn' do

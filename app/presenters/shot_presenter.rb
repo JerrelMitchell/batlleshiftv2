@@ -34,7 +34,7 @@ class ShotPresenter
   end
 
   def wrong_turn?
-    return false if user.player_type == game.current_turn
+    return false if user.player_type(@game.id) == game.current_turn
     invalid_opponents_turn
     true
   end

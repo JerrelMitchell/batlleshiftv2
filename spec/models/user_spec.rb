@@ -23,9 +23,9 @@ RSpec.describe User, type: :model do
       game_attributes = { player_1_board: player_1_board,
                            player_2_board: player_2_board,
                            current_turn: 'challenger' }
-      user.games.create!(game_attributes)
+      game = user.games.create!(game_attributes)
 
-      expect(user.player_type).to eq(game_attributes[:current_turn])
+      expect(user.player_type(game.id)).to eq(game_attributes[:current_turn])
     end
   end
 end

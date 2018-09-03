@@ -24,7 +24,7 @@ describe PlaceShipProcessor, type: :model do
     expect(psp.game).to eq(@game)
     expect(psp.user).to eq(@user1)
     expect(psp.game_info).to eq(@param_info)
-    expect(psp.player_type).to eq(@user1.user_games.first.player_type)
+    expect(psp.player_type).to eq(@user1.player_type(@game.id))
     expect(psp.status).to eq(401)
   end
 

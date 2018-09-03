@@ -10,7 +10,7 @@ class PlaceShipProcessor
     @game = user.games.find(game_info[:game_id]) if user
     @user = user
     @game_info = game_info
-    @player_type = user.player_type
+    @player_type = user.player_type(@game.id)
     @status = 401
   end
 

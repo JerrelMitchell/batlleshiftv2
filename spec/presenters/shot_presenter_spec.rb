@@ -20,7 +20,7 @@ describe ShotPresenter, type: :model do
     @game.update(presenter.game_update)
     presenter = PlaceShipPresenter.new(param_4, @user2).run
     @game.update(presenter.game_update)
-    @turn_processor = TurnProcessor.new(@game, "A1", @user1.player_type)
+    @turn_processor = TurnProcessor.new(@game, "A1", @user1.player_type(@game.id))
     @shot_params = {target: 'A1', game_id: @game.id}
     @bad_shot_params = {target: 'X1', game_id: @game.id}
   end
