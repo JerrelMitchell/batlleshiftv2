@@ -38,14 +38,13 @@ class TurnProcessor
 
   def attack_opponent
     result = Shooter.fire!(board: @game.player_2_board, target: @target)
-    if result.include?('sunk.')
-      @game.player_2_board.add_sunken_ship
-    end
+    @game.player_2_board.add_sunken_ship if result.include?('sunk.')
     generate_message(result)
   end
 
   def attack_challenger
     result = Shooter.fire!(board: @game.player_1_board, target: @target)
+    @game.player_1_board.add_sunken_ship if result.include?('sunk.')
     generate_message(result)
   end
 

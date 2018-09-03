@@ -17,7 +17,7 @@ class ShotPresenter
 
   def unauthorized?
     if @user
-      processor.run!
+      processor.run! unless game_over?
       false
     else
       invalid_unauthorized

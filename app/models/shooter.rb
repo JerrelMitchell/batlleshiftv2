@@ -6,10 +6,12 @@ class Shooter
   end
 
   def fire!
-    if valid_shot?
-      space.attack!
-    else
+    if !valid_shot?
       raise MessageGenerator.invalid_coordinates
+    elsif already_fired? && valid_shot?
+      raise MessageGenerator.already_fired
+    elsif valid_shot?
+      space.attack!
     end
   end
 
@@ -27,5 +29,9 @@ class Shooter
 
   def valid_shot?
     board.space_names.include?(target)
+  end
+
+  def already_fired?
+    !(space.not_attacked?)
   end
 end

@@ -1,7 +1,7 @@
 class Api::V1::Games::ShotsController < ApiController
   def create
     presenter = ShotPresenter.new(shot_params, current_user, turn_processor).run
-    game.update(winner: presenter.winner) if presenter.winner
+    game.update(winner: presenter.winner, current_turn: 2) if presenter.winner
     render json: game, status: presenter.status, message: presenter.message
   end
 
