@@ -36,7 +36,7 @@ class MessageGenerator < StandardError
     'Invalid coordinates'
   end
 
-  def self.already_fired
+  def self.already_fired_on
     "You've already fired on this spot. Get yourself together captain."
   end
 

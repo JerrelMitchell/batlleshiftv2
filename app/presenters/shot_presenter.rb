@@ -49,6 +49,20 @@ class ShotPresenter
     end
   end
 
+  def previously_fired_on?
+    if @processor.fired_on?
+      invalid_fired_on
+      true
+    else
+      false
+    end
+  end
+
+  def invalid_fired_on
+    @status = 400
+    @message = MessageGenerator.already_fired_on
+  end
+
   def invalid_unauthorized
     @status = 401
     @message = "Unauthorized"

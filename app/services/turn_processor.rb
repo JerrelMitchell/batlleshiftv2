@@ -22,14 +22,18 @@ class TurnProcessor
   def run!
     if @game.challenger? && correct_turn? && valid_target
       attack_opponent
-      @game.opponent! unless @shooter.fired_on?
+      @game.opponent! unless fired_on?
     elsif @game.opponent? && correct_turn? && valid_target
       attack_challenger
-      @game.challenger! unless @shooter.fired_on?
+      @game.challenger! unless fired_on?
     else
       @messages << MessageGenerator.invalid_attack
     end
     @game.save!
+  end
+
+  def fired_on?
+    @shooter.fired_on? if @shooter
   end
 
   def message
