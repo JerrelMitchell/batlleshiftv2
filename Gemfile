@@ -28,6 +28,7 @@ end
 
 group :test do
   gem 'simplecov'
+  gem 'webmock'
 end
 
 group :development do
