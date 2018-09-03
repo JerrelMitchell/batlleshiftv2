@@ -3,7 +3,6 @@ class Space
 
   def initialize(coordinates)
     @coordinates       = coordinates
-    @contents          = nil
     @message_generator = MessageGenerator
     @status            = @message_generator.not_attacked
   end
@@ -26,7 +25,7 @@ class Space
   end
 
   def occupied?
-    !!contents
+    contents
   end
 
   def not_attacked?
