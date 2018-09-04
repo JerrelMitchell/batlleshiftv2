@@ -10,7 +10,7 @@ class PlaceShipProcessor
     @game = user.games.find(game_info[:game_id]) if user
     @user = user
     @game_info = game_info
-    @player_type = user.player_type(@game.id)
+    @player_type = user.player_type(@game.id) if user
     @status = 200
     @message = ''
   end
@@ -37,19 +37,8 @@ class PlaceShipProcessor
   def place_ship_on_correct_board
     if game
       ship_placer.run
-      return ship_placed unless ship_placer.message
-      ship_not_placed(ship_placer.message)
+      ship_placed
     end
-  end
-
-  def unauthorized
-    @status = 401
-    @message = "Unauthorized"
-  end
-
-  def ship_not_placed(message)
-    @status = 400
-    @message = message
   end
 
   def ship_placed

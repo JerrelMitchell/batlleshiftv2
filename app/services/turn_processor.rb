@@ -1,4 +1,6 @@
 class TurnProcessor
+  attr_reader :message
+
   def initialize(game, target, player_type)
     @game   = game
     @target = target
@@ -55,6 +57,8 @@ class TurnProcessor
   def generate_message(result)
     if @game.player_1_board.all_sunk? || @game.player_2_board.all_sunk?
       @messages << @message_generator.game_over_shot
+    elsif fired_on?
+      @messages << @message_generator.already_fired_on
     else
       @messages << @message_generator.shot_result(result)
     end

@@ -18,9 +18,9 @@ class Shooter
   end
 
   def fired_on?
-    space.fired_on
+    space.fired_on if space.class == Space
   end
-  
+
   def self.fire!(board:, target:)
     new(board: board, target: target).fire!
   end
@@ -35,9 +35,5 @@ class Shooter
 
   def valid_shot?
     board.space_names.include?(target)
-  end
-
-  def not_attacked?
-    space.not_attacked?
   end
 end

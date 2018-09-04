@@ -17,7 +17,7 @@ class Space
                 end
               elsif !contents && not_attacked?
                 message_generator.miss
-              else
+              elsif contents && !not_attacked?
                 @fired_on = true
                 @status
               end
