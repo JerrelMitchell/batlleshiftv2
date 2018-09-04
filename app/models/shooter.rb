@@ -1,4 +1,6 @@
 class Shooter
+  attr_reader :message
+
   def initialize(board:, target:)
     @board     = board
     @target    = target
@@ -6,11 +8,17 @@ class Shooter
   end
 
   def fire!
-    if valid_shot?
-      space.attack!
-    else
+    if !valid_shot?
       raise MessageGenerator.invalid_coordinates
+    elsif valid_shot?
+      space.attack!
+      @message = space.status
     end
+    self
+  end
+
+  def fired_on?
+    space.fired_on if space.class == Space
   end
 
   def self.fire!(board:, target:)

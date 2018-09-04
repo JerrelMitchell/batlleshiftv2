@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_secure_token :activation_token
   has_secure_token :auth_token
 
-  def player_type
-    user_games.first.player_type
+  def player_type(game_id)
+    user_games.find_by(game_id: game_id).player_type
   end
 end

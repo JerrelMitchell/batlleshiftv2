@@ -4,7 +4,7 @@ class Game < ApplicationRecord
   has_many :user_games
   has_many :users, through: :user_games
 
-  enum current_turn: %i[challenger opponent]
+  enum current_turn: %i[challenger opponent N/A]
 
   serialize :player_1_board
   serialize :player_2_board

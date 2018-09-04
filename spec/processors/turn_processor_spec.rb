@@ -20,8 +20,8 @@ describe TurnProcessor, type: :model do
     @game.update(presenter.game_update)
     presenter = PlaceShipPresenter.new(param_4, @user2).run
     @game.update(presenter.game_update)
-    @tp1 = TurnProcessor.new(@game, "A1", @user1.player_type)
-    @tp2 = TurnProcessor.new(@game, "X1", @user2.player_type)
+    @tp1 = TurnProcessor.new(@game, "A1", @user1.player_type(@game.id))
+    @tp2 = TurnProcessor.new(@game, "X1", @user2.player_type(@game.id))
   end
 
   it 'can check if correct turn' do
@@ -57,13 +57,13 @@ describe TurnProcessor, type: :model do
   end
 
   it 'can attack_opponent' do
-    allow_any_instance_of(Shooter).to receive(:fire!).and_return('Hit. Battleship sunk.')
+    allow_any_instance_of(Shooter).to receive(:message).and_return('Hit. Battleship sunk.')
 
     expect(@tp1.attack_opponent).to eq(["Your shot resulted in a Hit. Battleship sunk.."])
   end
 
   it 'can attack_challenger' do
-    allow_any_instance_of(Shooter).to receive(:fire!).and_return('Hit. Battleship sunk.')
+    allow_any_instance_of(Shooter).to receive(:message).and_return('Hit. Battleship sunk.')
 
     expect(@tp1.attack_challenger).to eq(["Your shot resulted in a Hit. Battleship sunk.."])
   end

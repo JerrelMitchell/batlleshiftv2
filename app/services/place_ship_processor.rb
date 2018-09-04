@@ -10,8 +10,9 @@ class PlaceShipProcessor
     @game = user.games.find(game_info[:game_id]) if user
     @user = user
     @game_info = game_info
-    @player_type = user.player_type
-    @status = 401
+    @player_type = user.player_type(@game.id) if user
+    @status = 200
+    @message = ''
   end
 
   def current_board
@@ -35,11 +36,14 @@ class PlaceShipProcessor
 
   def place_ship_on_correct_board
     if game
-      ship_placer.ship.place(game_info[:start_space], game_info[:end_space])
       ship_placer.run
-      @message = MessageGenerator.place_ship(game_info[:ship_size], current_board.ships)
-      @status = 200
+      ship_placed
     end
+  end
+
+  def ship_placed
+    @status = 200
+    @message = MessageGenerator.place_ship(game_info[:ship_size], current_board.ships)
   end
 
   private
