@@ -15,11 +15,13 @@ class Space
                 else
                   message_generator.hit
                 end
-              else
+              elsif !contents && not_attacked?
                 message_generator.miss
+              else
+                @status
               end
   end
-
+  
   def occupy!(ship)
     @contents = ship
   end
